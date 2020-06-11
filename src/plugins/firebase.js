@@ -21,4 +21,3 @@ if (!fb.apps.length) {
     else store.dispatch('common/toggleLoading', false);
   });
 }
-// export default fb;

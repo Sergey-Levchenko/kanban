@@ -25,15 +25,6 @@ const tasks = {
       commit('GET_TASKS', tasks);
     },
     addTaskById({commit, rootState, dispatch}, payload) {
-      // await fb
-      //   .firestore()
-      //   .doc('kanban2/' + rootState.auth.token)
-      //   .collection('data')
-      //   .where('id', '==', '964cd2d7-c086-452d-b1e0-81310df8ee99')
-      //   .get()
-      //   .then(res => {
-      //     res.docs.forEach(doc => {
-      //       // console.log(doc.data().list);
       fb.firestore()
         .doc('kanban2/' + rootState.auth.token + '/data/' + payload.id)
         .update({
@@ -42,22 +33,6 @@ const tasks = {
         .then(() => {
           dispatch('getTasks');
         });
-      //     });
-      //   });
-
-      // .update({
-      //   regions: fb.firestore.FieldValue.arrayUnion(payload),
-      // });
-      //   .where('name', '==', 'План на месяц')
-      //   //   .doc(rootState.auth.token)
-      //   .get()
-      //   .then(res => {
-      //     res.docs.forEach(doc => {
-      //       console.log(doc.data());
-      //     });
-      //   });
-      // .whereField("vitamins", arrayContains: "B6")
-      // commit('SET_TASK_BY_ID', payload);
     },
     deleteTaskById({rootState, state, dispatch}, payload) {
       const newList = state.data.find(item => item.id == payload.id).list.filter((item, i) => i != payload.index);
