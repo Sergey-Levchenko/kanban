@@ -26,7 +26,8 @@
     </div>
     <TaskForm @closed="formActive = !formActive" v-if="formActive" @added="addTask"></TaskForm>
     <button class="btn" @click="formActive = !formActive" v-if="!formActive">
-      <i class="material-icons">add</i>Добавить ещё одну карточку
+      <i class="material-icons">add</i>
+      Добавить {{data.list.length?'ещё одну ':''}}карточку
     </button>
   </div>
 </template>

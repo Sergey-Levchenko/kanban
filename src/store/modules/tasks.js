@@ -7,7 +7,7 @@ const tasks = {
     data: [],
   },
   getters: {
-    getData: state => state.data,
+    getDataLength: state => state.data.length,
   },
   actions: {
     async getTasks({commit, rootState}) {
@@ -60,7 +60,6 @@ const tasks = {
       dispatch('saveAllTasks');
     },
     createList({commit, dispatch, rootState}, payload) {
-      console.log(payload);
       fb.firestore()
         .collection('kanban2/' + rootState.auth.token + '/data')
         .add({

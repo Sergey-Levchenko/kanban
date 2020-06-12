@@ -1,7 +1,8 @@
 <template>
   <div class="add-list">
     <button class="add-list__btn btn" @click="formActive=!formActive" v-if="!formActive">
-      <i class="material-icons">add</i>Добавить ещё один список
+      <i class="material-icons">add</i>
+      Добавить {{this.dataLength?'ещё один ':''}}список
     </button>
     <TaskForm
       class="add-list__form"
@@ -15,11 +16,18 @@
 
 <script>
 import TaskForm from "./TaskForm";
+import { mapGetters } from "vuex";
+
 export default {
   components: { TaskForm },
   data: () => ({
     formActive: false
   }),
+  computed: {
+    ...mapGetters({
+      dataLength: "tasks/getDataLength"
+    })
+  },
   methods: {
     addTask(text) {
       this.$store.dispatch("tasks/createList", text);
