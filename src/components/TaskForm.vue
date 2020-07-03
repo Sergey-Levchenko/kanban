@@ -1,6 +1,6 @@
 <template>
   <div class="task-form">
-    <textarea type="text" :placeholder="text.input" v-model="inputValue" />
+    <textarea ref="input" type="text" :placeholder="text.input" v-model="inputValue" />
     <div class="task-form__footer">
       <button class="task-form__btn" @click="addTask">{{text.btn}}</button>
       <button class="task-form__close" @click="closeForm">
@@ -34,6 +34,9 @@ export default {
     addTask() {
       if (this.inputValue) this.$emit("added", this.inputValue);
     }
+  },
+  mounted() {
+    this.$refs.input.focus();
   }
 };
 </script>

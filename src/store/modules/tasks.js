@@ -24,7 +24,7 @@ const tasks = {
         });
       commit('GET_TASKS', tasks);
     },
-    addTaskById({commit, rootState, dispatch}, payload) {
+    addTaskById({rootState, dispatch}, payload) {
       fb.firestore()
         .doc('kanban2/' + rootState.auth.token + '/data/' + payload.id)
         .update({

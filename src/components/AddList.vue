@@ -10,6 +10,7 @@
       v-if="formActive"
       @added="addTask($event)"
       type="list"
+      :focus="formFocus"
     ></TaskForm>
   </div>
 </template>
@@ -21,7 +22,8 @@ import { mapGetters } from "vuex";
 export default {
   components: { TaskForm },
   data: () => ({
-    formActive: false
+    formActive: false,
+    formFocus: false
   }),
   computed: {
     ...mapGetters({

@@ -8,13 +8,26 @@ const auth = {
     isAuth: state => state.token != null,
   },
   actions: {
-    async login({commit}, payload) {
+    async login({commit, dispatch, rootState}, payload) {
       const user = await fb
         .auth()
         .signInWithEmailAndPassword(payload.email, payload.password)
-        .catch(function(error) {
-          console.log(error.code);
-          console.log(error.message);
+        .then(() => {
+          if (rootState.common.error) {
+            dispatch('common/clearError', {}, {root: true});
+          }
+        })
+        .catch(error => {
+          // console.log(error.code);
+          // console.log(error.message);
+          if (error.code == 'auth/user-not-found') {
+            dispatch('common/setError', 'Такой пользватель не зарегестрирован', {root: true});
+            throw new Error('Такой пользватель не зарегестрирован');
+          }
+          if (error.code == 'auth/wrong-password') {
+            dispatch('common/setError', 'Не верный пароль', {root: true});
+            throw new Error('Не верный пароль');
+          }
         });
 
       commit('LOGIN', user.user.uid);
