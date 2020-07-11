@@ -5,10 +5,11 @@ import 'firebase/messaging';
 import 'firebase/storage';
 import 'firebase/auth';
 import store from '../store';
+import keys from '@/keys';
 
 if (!fb.apps.length) {
   fb.initializeApp({
-    apiKey: process.env.FIREBASE_API_KEY,
+    apiKey: keys.FIREBASE_API_KEY,
     authDomain: 'honey-s.firebaseapp.com',
     databaseURL: 'https://honey-s.firebaseio.com',
     projectId: 'honey-s',
