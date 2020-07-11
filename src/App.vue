@@ -38,7 +38,7 @@ export default {
     ...mapState({
       tasks: state => state.tasks.data,
       token: state => state.auth.token,
-      loading: state => state.common.loading,
+      loading: state => state.common.loading
     }),
     ...mapGetters({
       confirm: "common/confirmDisplay"
@@ -48,6 +48,9 @@ export default {
     logoutHandler() {
       this.$store.dispatch("auth/logout");
     }
+  },
+  mounted() {
+    console.log('App',process.env);
   }
 };
 </script>
