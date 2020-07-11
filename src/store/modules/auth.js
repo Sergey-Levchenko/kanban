@@ -9,17 +9,16 @@ const auth = {
   },
   actions: {
     async login({commit, dispatch, rootState}, payload) {
-      const user = await fb
+      await fb
         .auth()
         .signInWithEmailAndPassword(payload.email, payload.password)
-        .then(() => {
+        .then(user => {
           if (rootState.common.error) {
             dispatch('common/clearError', {}, {root: true});
           }
+          commit('LOGIN', user.user.uid);
         })
         .catch(error => {
-          // console.log(error.code);
-          // console.log(error.message);
           if (error.code == 'auth/user-not-found') {
             dispatch('common/setError', 'Такой пользватель не зарегестрирован', {root: true});
             throw new Error('Такой пользватель не зарегестрирован');
@@ -29,8 +28,6 @@ const auth = {
             throw new Error('Не верный пароль');
           }
         });
-
-      commit('LOGIN', user.user.uid);
     },
     async logout({commit}) {
       await fb.auth().signOut();

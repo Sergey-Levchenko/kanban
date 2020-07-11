@@ -8,7 +8,7 @@ import store from '../store';
 
 if (!fb.apps.length) {
   fb.initializeApp({
-    apiKey: 'AIzaSyAAV3J0g03gcWSyqCNMn-NFTLhVvxvthBk',
+    apiKey: process.env.FIREBASE_API_KEY,
     authDomain: 'honey-s.firebaseapp.com',
     databaseURL: 'https://honey-s.firebaseio.com',
     projectId: 'honey-s',

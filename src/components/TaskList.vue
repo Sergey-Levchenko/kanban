@@ -55,7 +55,9 @@ export default {
       this.formActive = false;
     },
     deleteTask(index) {
-      this.$store.dispatch(`tasks/deleteTaskById`, {
+      this.$store.dispatch("common/setConfirm", {
+        text: "Вы точно хотите удалить карточку?",
+        type: "task",
         id: this.data.id,
         index
       });
@@ -68,7 +70,11 @@ export default {
       });
     },
     deleteList() {
-      this.$store.dispatch("tasks/deleteListById", this.data.id);
+      this.$store.dispatch("common/setConfirm", {
+        text: "Вы точно хотите удалить список?",
+        type: "list",
+        id: this.data.id
+      });
     }
   }
 };

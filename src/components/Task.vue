@@ -1,6 +1,6 @@
 <template>
   <div class="task" :contenteditable="editable">
-    <p>{{data}}</p>
+    <p ref="editable">{{data}}</p>
     <i class="material-icons edit" @click="editHandler(true, $event)" v-if="!editable">edit</i>
     <i class="material-icons save" @click="editHandler(false, $event)" v-else>save</i>
     <i class="material-icons delete" @click="$emit('delete')">delete_outline</i>
@@ -15,8 +15,8 @@ export default {
   }),
   methods: {
     editHandler(val, e) {
-      const tmp = e.target.parentNode.getElementsByTagName("p")[0].innerText;
-      if (!val && tmp != this.data) this.$emit("save", tmp);
+      if (!val && this.$refs.editable.innerText != this.data)
+        this.$emit("save", tmp);
       this.editable = !this.editable;
     }
   }

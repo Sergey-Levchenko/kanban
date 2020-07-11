@@ -11,6 +11,9 @@
     <transition name="fade">
       <Loader v-if="loading"></Loader>
     </transition>
+    <transition name="fade">
+      <Confirm v-if="confirm"></Confirm>
+    </transition>
   </div>
 </template>
 
@@ -18,6 +21,7 @@
 import TaskList from "@/components/TaskList";
 import LoginPopup from "@/components/LoginPopup";
 import Loader from "@/components/Loader";
+import Confirm from "@/components/Confirm";
 import AddList from "@/components/AddList";
 import { mapState, mapGetters } from "vuex";
 import fb from "firebase/app";
@@ -27,13 +31,17 @@ export default {
     TaskList,
     LoginPopup,
     Loader,
-    AddList
+    AddList,
+    Confirm
   },
   computed: {
     ...mapState({
       tasks: state => state.tasks.data,
       token: state => state.auth.token,
-      loading: state => state.common.loading
+      loading: state => state.common.loading,
+    }),
+    ...mapGetters({
+      confirm: "common/confirmDisplay"
     })
   },
   methods: {
