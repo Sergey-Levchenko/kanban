@@ -7,7 +7,7 @@ import 'firebase/auth';
 import store from '../store';
 // import keys from '../keys/index';
 
-console.log('firebase:', process.env.NODE_ENV);
+console.log('firebase:', process.env);
 // console.log('firebase:', keys);
 console.log('firebase:', process.env.FIREBASE_API_KEY);
 
