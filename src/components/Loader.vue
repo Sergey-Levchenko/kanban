@@ -29,7 +29,7 @@ export default {};
   &-wrapper {
     width: 100vw;
     height: 100vh;
-    background-color: #fff;
+    background-color: rgb(19, 24, 23);
     position: fixed;
     left: 0;
     top: 0;

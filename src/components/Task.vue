@@ -15,9 +15,11 @@ export default {
   }),
   methods: {
     editHandler(val, e) {
-      if (!val && this.$refs.editable.innerText != this.data)
+      const tmp = this.$refs.editable.innerText;
+      if (!val && tmp != this.data && tmp.length > 1) {
         this.$emit("save", tmp);
-      this.editable = !this.editable;
+      }
+      if (tmp.length > 1) this.editable = !this.editable;
     }
   }
 };
