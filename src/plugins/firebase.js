@@ -5,11 +5,12 @@ import 'firebase/messaging';
 import 'firebase/storage';
 import 'firebase/auth';
 import store from '../store';
-import keys from '../keys/index';
+// import keys from '../keys/index';
 
 console.log('firebase:', process.env.NODE_ENV);
 // console.log('firebase:', keys);
-console.log('firebase:', keys.FIREBASE_API_KEY);
+console.log('firebase:', process.env.FIREBASE_API_KEY);
+const key = process.env.FIREBASE_API_KEY;
 if (!fb.apps.length) {
   fb.initializeApp({
     apiKey: keys.FIREBASE_API_KEY,
