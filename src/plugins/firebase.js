@@ -10,10 +10,14 @@ import store from '../store';
 console.log('firebase:', process.env.NODE_ENV);
 // console.log('firebase:', keys);
 console.log('firebase:', process.env.FIREBASE_API_KEY);
-const key = process.env.FIREBASE_API_KEY;
+
+let key;
+if (process.env.NODE_ENV === 'production') key = process.env.FIREBASE_API_KEY;
+else key = 'AIzaSyAAV3J0g03gcWSyqCNMn-NFTLhVvxvthBk';
+
 if (!fb.apps.length) {
   fb.initializeApp({
-    apiKey: keys.FIREBASE_API_KEY,
+    apiKey: key,
     authDomain: 'honey-s.firebaseapp.com',
     databaseURL: 'https://honey-s.firebaseio.com',
     projectId: 'honey-s',
