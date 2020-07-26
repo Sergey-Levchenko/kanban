@@ -6,9 +6,10 @@ import 'firebase/storage';
 import 'firebase/auth';
 import store from '../store';
 
+console.log(process.env.VUE_APP_FB_SECRET_KEY);
 if (!fb.apps.length) {
   fb.initializeApp({
-    apiKey: 'AIzaSyAAV3J0g03gcWSyqCNMn-NFTLhVvxvthBk',
+    apiKey: process.env.VUE_APP_FB_SECRET_KEY,
     authDomain: 'honey-s.firebaseapp.com',
     databaseURL: 'https://honey-s.firebaseio.com',
     projectId: 'honey-s',
