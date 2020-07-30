@@ -5,15 +5,33 @@ const tasks = {
   namespaced: true,
   state: {
     data: [],
+    boards: [],
+    currentBoard: '',
   },
   getters: {
     getDataLength: state => state.data.length,
   },
   actions: {
-    async getTasks({commit, rootState}) {
+    async getBoards({commit, rootState}) {
+      const boards = await fb
+        .firestore()
+        .collection('users/')
+        .doc(rootState.auth.token)
+        .get()
+        .then(res => {
+          if (res.exists) return res.data().boards;
+        });
+      commit('GET_BOARDS', boards);
+    },
+    setCurrentBoard({commit}, {id}) {
+      commit('SET_CURRENT_BOARD', id);
+    },
+    async getTasks({commit, state, dispatch}) {
+      // dispatch('common/toggleLoading', true, {root: true});
+      // console.log(dispatch('common/toggleLoading', true, {root: true}));
       const tasks = await fb
         .firestore()
-        .doc('kanban2/' + rootState.auth.token)
+        .doc('kanban2/' + state.currentBoard)
         .collection('data')
         .orderBy('timestamp')
         .get()
@@ -24,9 +42,9 @@ const tasks = {
         });
       commit('GET_TASKS', tasks);
     },
-    addTaskById({rootState, dispatch}, payload) {
+    addTaskById({state, rootState, dispatch}, payload) {
       fb.firestore()
-        .doc('kanban2/' + rootState.auth.token + '/data/' + payload.id)
+        .doc('kanban2/' + state.currentBoard + '/data/' + payload.id)
         .update({
           list: fb.firestore.FieldValue.arrayUnion(payload.inputValue),
         })
@@ -34,10 +52,10 @@ const tasks = {
           dispatch('getTasks');
         });
     },
-    deleteTaskById({rootState, state, dispatch}, payload) {
+    deleteTaskById({state, dispatch}, payload) {
       const newList = state.data.find(item => item.id == payload.id).list.filter((item, i) => i != payload.index);
       fb.firestore()
-        .doc('kanban2/' + rootState.auth.token + '/data/' + payload.id)
+        .doc('kanban2/' + state.currentBoard + '/data/' + payload.id)
         .update({
           list: newList,
         })
@@ -45,10 +63,10 @@ const tasks = {
           dispatch('getTasks');
         });
     },
-    saveAllTasks({state, rootState}, payload) {
+    saveAllTasks({state}) {
       state.data.forEach(item => {
         fb.firestore()
-          .doc('kanban2/' + rootState.auth.token + '/data/' + item.id)
+          .doc('kanban2/' + state.currentBoard + '/data/' + item.id)
           .update({
             name: item.name,
             list: item.list,
@@ -59,9 +77,9 @@ const tasks = {
       commit('EDIT_SAVE', payload);
       dispatch('saveAllTasks');
     },
-    createList({commit, dispatch, rootState}, payload) {
+    createList({commit, dispatch, state}, payload) {
       fb.firestore()
-        .collection('kanban2/' + rootState.auth.token + '/data')
+        .collection('kanban2/' + state.currentBoard + '/data')
         .add({
           name: payload,
           list: [],
@@ -71,9 +89,9 @@ const tasks = {
           dispatch('getTasks');
         });
     },
-    deleteListById({dispatch, rootState}, payload) {
+    deleteListById({dispatch, state}, payload) {
       fb.firestore()
-        .doc('kanban2/' + rootState.auth.token + '/data/' + payload)
+        .doc('kanban2/' + state.currentBoard + '/data/' + payload)
         .delete()
         .then(() => {
           dispatch('getTasks');
@@ -81,6 +99,12 @@ const tasks = {
     },
   },
   mutations: {
+    GET_BOARDS(state, payload) {
+      state.boards = payload;
+    },
+    SET_CURRENT_BOARD(state, payload) {
+      state.currentBoard = payload;
+    },
     GET_TASKS(state, payload) {
       state.data = payload;
     },

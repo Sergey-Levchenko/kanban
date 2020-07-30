@@ -35,7 +35,9 @@ const auth = {
     },
     async initUserBeforeLoad({commit, dispatch}, payload) {
       commit('LOGIN', payload);
-      await dispatch('tasks/getTasks', {}, {root: true});
+      // await dispatch('tasks/getTasks', {}, {root: true});
+
+      await dispatch('tasks/getBoards', {}, {root: true});
       dispatch('common/toggleLoading', false, {root: true});
     },
     async register({commit}, payload) {
