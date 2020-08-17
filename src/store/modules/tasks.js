@@ -23,12 +23,27 @@ const tasks = {
         });
       commit('GET_BOARDS', boards);
     },
+    addBoard({dispatch, rootState}) {
+      fb.firestore()
+        .collection('kanban2/')
+        .add({})
+        .then(async ref => {
+          const boards = await fb
+            .firestore()
+            .collection('users/')
+            .doc(rootState.auth.token)
+            .update({
+              boards: fb.firestore.FieldValue.arrayUnion({id: ref.id}),
+            })
+            .then(() => {
+              dispatch('getBoards');
+            });
+        });
+    },
     setCurrentBoard({commit}, {id}) {
       commit('SET_CURRENT_BOARD', id);
     },
-    async getTasks({commit, state, dispatch}) {
-      // dispatch('common/toggleLoading', true, {root: true});
-      // console.log(dispatch('common/toggleLoading', true, {root: true}));
+    async getTasks({commit, state}) {
       const tasks = await fb
         .firestore()
         .doc('kanban2/' + state.currentBoard)
@@ -77,7 +92,7 @@ const tasks = {
       commit('EDIT_SAVE', payload);
       dispatch('saveAllTasks');
     },
-    createList({commit, dispatch, state}, payload) {
+    createList({dispatch, state}, payload) {
       fb.firestore()
         .collection('kanban2/' + state.currentBoard + '/data')
         .add({

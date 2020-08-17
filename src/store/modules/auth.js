@@ -45,7 +45,21 @@ const auth = {
         .createUserWithEmailAndPassword(payload.email, payload.password)
         .then(() => {
           fb.auth().onAuthStateChanged(user => {
-            if (user) commit('LOGIN', user.uid);
+            if (user) {
+              commit('LOGIN', user.uid);
+              fb.firestore()
+                .collection('users/')
+                .doc(user.uid)
+                .set({
+                  boards: [],
+                })
+                .then(function() {
+                  console.log('Document successfully written!');
+                })
+                .catch(function(error) {
+                  console.error('Error writing document: ', error);
+                });
+            }
           });
         })
         .catch(function(error) {

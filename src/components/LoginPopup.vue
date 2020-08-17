@@ -261,4 +261,9 @@ button {
     background-color: rgb(160, 160, 160);
   }
 }
+@media screen and (max-width: 500px) {
+  .content{
+    width: 90%;
+  }
+}
 </style>

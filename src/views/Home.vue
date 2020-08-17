@@ -8,9 +8,10 @@
         :key="`board${i}`"
         @click="$router.push(`/board/${item.id}`)"
       >
-        <p>{{item.name}}</p>
+        <p>{{item.id}}</p>
       </li>
     </ul>
+    <button class="add-board" @click="addHandler">Добавить доску</button>
   </div>
 </template>
 
@@ -22,7 +23,11 @@ export default {
       boards: (state) => state.tasks.boards,
     }),
   },
-  mounted() {},
+  methods: {
+    addHandler() {
+      this.$store.dispatch("tasks/addBoard");
+    },
+  },
 };
 </script>
 
@@ -54,6 +59,8 @@ h1 {
     padding: 10px 30px;
     margin-top: 10px;
     border-radius: 5px;
+    font-size: 12px;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
     &:hover {
@@ -61,6 +68,24 @@ h1 {
     }
     // width: 90%;
     // margin-left: 5%;
+  }
+}
+.add-board {
+  background-color: rgba(112, 191, 255, 0.7);
+  padding: 10px 30px;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  &:hover {
+    background-color: rgb(125, 255, 175);
+  }
+  &:focus {
+    outline: none;
   }
 }
 </style>

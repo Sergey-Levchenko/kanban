@@ -22,10 +22,6 @@ export default {
       tasks: (state) => state.tasks.data,
     }),
   },
-  methods: {},
-  mounted() {
-    // this.$store.dispatch("tasks/setCurrentBoard", this.$route.params._id);
-  },
 };
 </script>
 
